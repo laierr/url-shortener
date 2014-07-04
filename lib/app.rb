@@ -20,9 +20,7 @@ class App < Sinatra::Base
   end
 
   post '/shorten' do
-    link = Link.new(url: params[:url])
-    link.save
-    
+    link = Link.find_or_create_by(url: params[:url])
     new_link = "http://#{BASE_URL}/r/#{link.id}"
 
     erb :new_link, locals: {new_link: new_link}
@@ -32,5 +30,4 @@ class App < Sinatra::Base
     link = Link.find(params[:link_id])
     redirect link.url
   end
-
 end
