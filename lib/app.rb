@@ -9,6 +9,12 @@ class App < Sinatra::Base
   register Sinatra::ActiveRecordExtension
   set :database, adapter: "sqlite3", database: "db-#{ENV['RACK_ENV']}.sqlite3"
 
+  BASE_URL = {
+      'test' => 'example.com',
+      'development' => 'localhost:9292',
+      'production' => 'laier-url-shortener.herokuapp.com'
+    }[ENV['RACK_ENV']]
+
   get '/' do
     erb :index
   end
@@ -17,7 +23,7 @@ class App < Sinatra::Base
     link = Link.new(url: params[:url])
     link.save
     
-    new_link = "http://ex.com/r/#{link.id}"
+    new_link = "http://#{BASE_URL}/r/#{link.id}"
 
     erb :new_link, locals: {new_link: new_link}
   end

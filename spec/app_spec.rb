@@ -32,7 +32,7 @@ describe App do
   it 'shows new link' do
     post '/shorten', url: url
 
-    expect(last_response.body).to match(/http\:\/\/.*\/r\/#{Link.last.id}/)
+    expect(last_response.body).to match("http://#{App::BASE_URL}/r\/#{Link.last.id}")
   end
 
   it 'redirects to URL' do
